@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * 
- */
-module Q1Shapeclass {
-}

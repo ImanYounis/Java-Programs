@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * 
- */
-module Q2Authorclass {
-}

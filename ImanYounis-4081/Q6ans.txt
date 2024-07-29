@@ -1,8 +1,0 @@
-Q19. (C) CHESS
-Q20. (B) III ONLY
-Q21. (C) III ONLY
-Q22. (B) I and II ONLY
-Q23. (A) public class Point{...}
-Q24. (E) public interface PersonalInformation{...}...
-Q25. (A) A ClassCastException will occur if ob1 and ob2 are not compatible
-Q26. (B)  I and II ONLY
