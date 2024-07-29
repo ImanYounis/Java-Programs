@@ -1,0 +1,130 @@
+package dbConn;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.*;
+
+
+public class AConn implements ActionListener {
+	
+	JButton Add,View,Search,Del;
+	JLabel data;
+	public AConn()
+	{
+	
+		JFrame jf=new JFrame("Product Information");
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setLayout(new FlowLayout());
+		JPanel ButtonPanel=new JPanel();
+		ButtonPanel.setLayout(new BoxLayout(ButtonPanel,BoxLayout.Y_AXIS));
+		ButtonPanel.setAlignmentX(50);
+		ButtonPanel.setAlignmentY(50);
+		
+		JPanel ViewPanel=new JPanel();
+		ViewPanel.setLayout(new BoxLayout(ViewPanel,BoxLayout.Y_AXIS));
+		Add=new JButton(" Add product ");
+		View= new JButton("View Product");
+		Search=new JButton("Search Product");
+		Del=new JButton("Delete");
+		 data=new JLabel(" You will see the data here");
+		ButtonPanel.add(Add);
+		ButtonPanel.add(View);
+		ButtonPanel.add(Search);
+		ButtonPanel.add(Del);
+		ViewPanel.add(data);
+		jf.add(ButtonPanel);
+		jf.add(ViewPanel);
+		View.addActionListener(this);
+		Add.addActionListener(this);
+		Search.addActionListener(this);
+		Del.addActionListener(this);
+		jf.setSize(300,200);
+		jf.setVisible(true);
+		jf.setResizable(false);}
+		//jf.pack();	
+		public void actionPerformed(ActionEvent AE)
+	{
+		String res="<pre><b>Name   Price<br>";
+		if (AE.getSource()==View)
+		{
+			 try{
+		            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");//Loading Driver
+		            Connection connection= DriverManager.getConnection("jdbc:ucanaccess://D:\\jp\\company.accdb");//Establishing Connection
+		            System.out.println("Connected Successfully");
+		            PreparedStatement preparedStatement=connection.prepareStatement("select * from Product");
+		            ResultSet resultSet=preparedStatement.executeQuery();
+		            while(resultSet.next()){
+		                 String PName=resultSet.getString("PName");
+		                 int Price=resultSet.getInt("PPrice");
+		                 //Printing Results
+		                 res+=PName+" Rs." +Price+"<br>";
+		                 }	
+		            System.out.print(res);
+		            data.setText("<html>"+res+"</html>") ;      
+			     }
+		            catch(Exception e){
+		            System.out.println("Error in connection");
+
+		        }
+
+			
+		}
+		if(AE.getSource()==Add)
+		{
+			System.out.print("jhlkjh");
+			new GuiShow();
+		}
+		if(AE.getSource()==Search) {
+			 try{
+				  String name=JOptionPane.showInputDialog("Enter name of product to search");
+				  
+		            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");//Loading Driver
+		            Connection connection= DriverManager.getConnection("jdbc:ucanaccess://D:\\jp\\company.accdb");//Establishing Connection
+		            System.out.println("Connected Successfully");
+		            PreparedStatement preparedStatement=connection.prepareStatement("select * from Product where PName=\""+name+"\"");
+		            ResultSet resultSet=preparedStatement.executeQuery();
+		            while(resultSet.next()){
+		                 String PName=resultSet.getString("PName");
+		                 int Price=resultSet.getInt("PPrice");
+		                 //Printing Results
+		                 res+=PName+" Rs." +Price+"<br>";
+		                 }	
+		            System.out.print(res);
+		            data.setText("<html>"+res+"</html>") ;      
+			     }
+		            catch(Exception e){
+		            System.out.println("Error in connection or db query");
+
+		        }
+		}
+		if(AE.getSource()==Del) {
+			try{
+				  int id=Integer.parseInt(JOptionPane.showInputDialog("Enter id of product to delete:"));
+				  
+				  Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");//Loading Driver
+		            Connection connection= DriverManager.getConnection("jdbc:ucanaccess://D:\\jp\\company.accdb");//Establishing Connection
+		            System.out.println("Connected Successfully");
+		            //System.out.print("Insert into Product values("+pid+",'"+pname+"',"+pq+","+pprice1+")");
+		            PreparedStatement preparedStatement=connection.prepareStatement("delete * from Product where PID="+id);
+		           
+		            int c= preparedStatement.executeUpdate();
+		            if(c>0)
+		            System.out.print("Data deleted successfully");   
+			     }
+		            catch(Exception e){
+		            System.out.println("Error in connection or db query");}
+		}
+		
+	}
+	
+	public static void main(String[] args){
+		new AConn();
+    
+}
+}

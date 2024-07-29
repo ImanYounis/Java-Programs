@@ -1,0 +1,24 @@
+package filing;
+
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+
+public class shapeHandling extends JFrame{
+	String[] data;
+	shapeHandling(){
+		try {
+			FileReader reader=new FileReader("shapedate.txt");
+			
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
